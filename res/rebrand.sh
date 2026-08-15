@@ -12,6 +12,11 @@ echo "Rebranding as: ${BRAND}"
 sed -i "s/RwLock::new(\"RustDesk\".to_owned())/RwLock::new(\"${BRAND}\".to_owned())/" libs/hbb_common/src/config.rs
 grep -q "RwLock::new(\"${BRAND}\"" libs/hbb_common/src/config.rs
 
+# Numeric-only one-time passwords (UltraViewer style): swap the generator's
+# character set from digits+letters to digits only.
+sed -z -i "s/const CHARS: &\\[char\\] = &\\[[^]]*\\];/const CHARS: \\&[char] = \\&['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];/" libs/hbb_common/src/config.rs
+grep -q "'0', '1', '2', '3'" libs/hbb_common/src/config.rs
+
 # Native runner's fallback window title (used before librustdesk is loaded).
 sed -i "s/L\"RustDesk\"/L\"${BRAND}\"/" flutter/windows/runner/main.cpp
 
