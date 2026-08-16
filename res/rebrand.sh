@@ -17,6 +17,12 @@ grep -q "RwLock::new(\"${BRAND}\"" libs/hbb_common/src/config.rs
 sed -z -i "s/const CHARS: &\\[char\\] = &\\[[^]]*\\];/const CHARS: \\&[char] = \\&['0', '1', '2', '3', '4', '5', '6', '7', '8', '9'];/" libs/hbb_common/src/config.rs
 grep -q "'0', '1', '2', '3'" libs/hbb_common/src/config.rs
 
+# Default to the TradexCodez server (Oracle Mumbai) with its key pinned.
+sed -i 's|pub const RENDEZVOUS_SERVERS: &\[&str\] = &\["rs-ny.rustdesk.com"\];|pub const RENDEZVOUS_SERVERS: \&[\&str] = \&["92.4.80.198"];|' libs/hbb_common/src/config.rs
+sed -i 's|pub const RS_PUB_KEY: &str = "OeVuKk5nlHiXp+APNn0Y3pC1Iwpwn44JGqrQCsWqmBw=";|pub const RS_PUB_KEY: \&str = "Yhu3sBgq4TB9FGyofstcCI0puMajOmBKTwjU+Sog+Bo=";|' libs/hbb_common/src/config.rs
+grep -q '92.4.80.198' libs/hbb_common/src/config.rs
+grep -q 'Yhu3sBgq4TB9FGyofstcCI0puMajOmBKTwjU' libs/hbb_common/src/config.rs
+
 # Native runner's fallback window title (used before librustdesk is loaded).
 sed -i "s/L\"RustDesk\"/L\"${BRAND}\"/" flutter/windows/runner/main.cpp
 
