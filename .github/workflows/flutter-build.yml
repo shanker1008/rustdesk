@@ -273,7 +273,7 @@ jobs:
           nuget restore msi.sln
           msbuild msi.sln -p:Configuration=Release -p:Platform=x64 /p:TargetVersion=Windows10
           $msi = Get-ChildItem ./Package/bin/*/Release/en-us/Package.msi | Select-Object -First 1
-          mv $msi.FullName "../../SignOutput/$env:BRAND-${{ env.VERSION }}-${{ matrix.job.arch }}.msi"
+          mv $msi.FullName "../../SignOutput/$($env:BRAND)_Remoteconnect.msi"
           sha256sum ../../SignOutput/*.msi
 
       - name: Sign rustdesk self-extracted file
