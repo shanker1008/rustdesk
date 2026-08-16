@@ -35,6 +35,11 @@ sed -i "s/\"RustDesk\"/\"${BRAND}\"/g" flutter/windows/runner/Runner.rc
 sed -i "s/\bRustDesk\b/${BRAND}/g" src/lang/*.rs
 find flutter/lib -name '*.dart' -print0 | xargs -0 sed -i "s/\bRustDesk\b/${BRAND}/g"
 
+# Hide the "set up your own server" status-bar link — we ship our own server
+# as the compiled-in default, so the tip is never relevant.
+sed -i 's/_svcIsUsingPublicServer\.value),/false),/g' flutter/lib/desktop/pages/connection_page.dart
+! grep -q '_svcIsUsingPublicServer\.value),' flutter/lib/desktop/pages/connection_page.dart
+
 # Swap in the branded icons staged under res/brand/.
 cp -f res/brand/icon.png       res/icon.png
 cp -f res/brand/icon.ico       res/icon.ico
